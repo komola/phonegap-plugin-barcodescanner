@@ -453,6 +453,15 @@ parentViewController:(UIViewController*)parentViewController
         return @"unable to add video capture output to session";
     }
     
+    if([device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]){
+        NSError *error = nil;
+        [device lockForConfiguration:&error];
+        if(!error){
+            [device setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+            [device unlockForConfiguration];
+        }
+    }
+    
     // setup capture preview layer
     self.previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
     
